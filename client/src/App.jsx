@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route 
             path="/login" 
-            element={!isAuthenticated ? <Login /> : <Navigate to="/" />} 
+            element={!isAuthenticated ? <Login onLogin={() => setIsAuthenticated(true)} /> : <Navigate to="/" />} 
           />
           
           <Route 

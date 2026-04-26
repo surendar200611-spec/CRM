@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, User, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,8 +20,8 @@ const Login = () => {
       if (username === 'surendar' && password === 'sure2006@') {
         localStorage.setItem('crm_authenticated', 'true');
         localStorage.setItem('crm_user', 'Surendar');
+        if (onLogin) onLogin();
         navigate('/');
-        window.location.reload(); // Ensure state updates
       } else {
         setError('Invalid admin credentials. Please try again.');
         setLoading(false);
