@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -10,24 +12,28 @@ const Login = ({ onLogin }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Hardcoded credentials check
-    setTimeout(() => {
-      if (username === 'surendar' && password === 'sure2006@') {
-        localStorage.setItem('crm_authenticated', 'true');
-        localStorage.setItem('crm_user', 'Surendar');
-        if (onLogin) onLogin();
-        navigate('/');
-      } else {
-        setError('Invalid admin credentials. Please try again.');
-        setLoading(false);
-      }
-    }, 800);
+    try {
+      // Map username to a placeholder email for Firebase Auth
+      const email = username.includes('@') ? username : `${username.toLowerCase()}@crm.com`;
+      await signInWithEmailAndPassword(auth, email, password);
+      
+      localStorage.setItem('crm_authenticated', 'true');
+      localStorage.setItem('crm_user', username);
+      if (onLogin) onLogin();
+      navigate('/');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Invalid credentials or Auth not enabled. Please check your Firebase settings.');
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div style={{ 

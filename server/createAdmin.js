@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const serviceAccount = require('./serviceAccountKey.json');
+const serviceAccount = require('./firebase-service-account.json');
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -10,9 +10,9 @@ if (!admin.apps.length) {
 const createAdmin = async () => {
   try {
     const user = await admin.auth().createUser({
-      email: 'admin@dolfin.com',
-      password: 'admin123@password',
-      displayName: 'System Admin'
+      email: 'surendar@crm.com',
+      password: 'sure2006@',
+      displayName: 'Surendar'
     });
     console.log('Admin user created successfully:', user.uid);
     process.exit(0);
@@ -23,3 +23,4 @@ const createAdmin = async () => {
 };
 
 createAdmin();
+
