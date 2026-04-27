@@ -4,8 +4,6 @@ import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import AddLead from './pages/AddLead';
 import Login from './pages/Login';
-import { auth } from './firebase';
-import { onAuthStateChanged } from 'firebase/auth';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -13,20 +11,10 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true);
-        localStorage.setItem('crm_authenticated', 'true');
-      } else {
-        setIsAuthenticated(false);
-        localStorage.setItem('crm_authenticated', 'false');
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    const authStatus = localStorage.getItem('crm_authenticated') === 'true';
+    setIsAuthenticated(authStatus);
+    setLoading(false);
   }, []);
-
 
   if (loading) return (
     <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

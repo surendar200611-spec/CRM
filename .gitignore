@@ -3,9 +3,7 @@ node_modules/
 dist/
 .DS_Store
 serviceAccountKey.json
-server/firebase-service-account.json
-server/firebase.js
-client/src/firebase.js
+firebase-service-account.json
 client/node_modules/
 server/node_modules/
 client/dist/
