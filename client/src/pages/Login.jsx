@@ -28,8 +28,16 @@ const Login = ({ onLogin }) => {
       navigate('/');
     } catch (err) {
       console.error('Login error:', err);
-      setError('Invalid credentials or Auth not enabled. Please check your Firebase settings.');
+      // Show more specific error message
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setError('Invalid credentials. Please check your username and password.');
+      } else if (err.code === 'auth/operation-not-allowed') {
+        setError('Email/Password login is not enabled in Firebase Console. Please enable it under Authentication > Sign-in method.');
+      } else {
+        setError(`Error: ${err.message}`);
+      }
     } finally {
+
       setLoading(false);
     }
   };
@@ -116,7 +124,42 @@ const Login = ({ onLogin }) => {
           >
             {loading ? <Loader2 className="animate-spin" /> : 'Authorize & Enter'}
           </button>
+
+          <button 
+            type="button"
+            onClick={async () => {
+              if (!username || !password) {
+                setError('Please enter a username and password to create the account.');
+                return;
+              }
+              setLoading(true);
+              try {
+                const { createUserWithEmailAndPassword } = await import('firebase/auth');
+                const email = username.includes('@') ? username : `${username.toLowerCase()}@crm.com`;
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert('Admin account created! You can now log in.');
+              } catch (err) {
+                setError(`Setup Error: ${err.message}`);
+              } finally {
+                setLoading(false);
+              }
+            }}
+            className="btn" 
+            style={{ 
+              width: '100%', 
+              justifyContent: 'center', 
+              marginTop: '1rem', 
+              padding: '10px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid var(--border)',
+              fontSize: '0.85rem'
+            }}
+            disabled={loading}
+          >
+            First time? Create Admin Account
+          </button>
         </form>
+
 
         <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
           CRM Secure Gateway &copy; 2026
