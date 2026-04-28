@@ -95,14 +95,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           <UserPlus size={20} />
           <span style={{ fontWeight: 500 }}>Acquire Lead</span>
         </div>
-
-        <div 
-          className="nav-item"
-          style={{ padding: '14px 18px', opacity: 0.5, cursor: 'not-allowed' }}
-        >
-          <Settings size={20} />
-          <span style={{ fontWeight: 500 }}>System Config</span>
-        </div>
       </nav>
 
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '20px' }}>

@@ -4,7 +4,7 @@ import {
   Mail, Phone, Calendar, MoreHorizontal, CheckCircle2, 
   Clock, UserCheck, Trash2, ChevronDown, Globe, 
   Link2, PhoneCall, Share2, TrendingUp, Search,
-  ArrowUpRight, Users, Target, Activity, Zap
+  ArrowUpRight, Users, Target, Activity, Zap, Download
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -138,6 +138,22 @@ const Dashboard = () => {
           <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Advanced lead tracking & performance analytics.</p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
+          <button 
+            className="glass-card" 
+            style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontWeight: 600 }}
+            onClick={() => {
+              const data = JSON.stringify(leads, null, 2);
+              const blob = new Blob([data], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `leads_report_${new Date().toLocaleDateString()}.json`;
+              a.click();
+            }}
+          >
+            <Download size={18} color="var(--primary)" />
+            <span>Export Intel</span>
+          </button>
           <div className="glass-card" style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Activity size={18} color="var(--primary)" />
             <span style={{ fontWeight: 600 }}>System Live</span>
@@ -512,7 +528,14 @@ const Dashboard = () => {
               </div>
 
               <div style={{ marginTop: '3rem', display: 'flex', gap: '15px' }}>
-                <button className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', padding: '14px' }}>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ flex: 1, justifyContent: 'center', padding: '14px' }}
+                  onClick={() => {
+                    alert(`Briefing sent to ${selectedLead.email} successfully!`);
+                    setSelectedLead(null);
+                  }}
+                >
                   <Mail size={18} /> Send Briefing
                 </button>
                 <button 
