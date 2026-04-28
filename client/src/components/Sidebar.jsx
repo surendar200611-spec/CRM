@@ -1,13 +1,20 @@
 import { LayoutDashboard, UserPlus, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem('crm_authenticated');
-    localStorage.removeItem('crm_user');
-    window.location.href = '/login';
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem('crm_authenticated');
+      localStorage.removeItem('crm_user');
+      window.location.href = '/login';
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (

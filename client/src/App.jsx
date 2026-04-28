@@ -5,15 +5,25 @@ import Dashboard from './pages/Dashboard';
 import AddLead from './pages/AddLead';
 import Login from './pages/Login';
 
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('crm_authenticated') === 'true';
-    setIsAuthenticated(authStatus);
-    setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user && user.email === 'surendar110833@gmail.com') {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   if (loading) return (
