@@ -84,14 +84,21 @@ app.patch('/api/leads/:id', async (req, res) => {
 // Get CRM Stats
 app.get('/api/stats', async (req, res) => {
   try {
-    const snapshot = await db.collection('leads').get();
-    const leads = snapshot.docs.map(doc => doc.data());
+    const leadsRef = db.collection('leads');
     
+    // Use parallel count queries for maximum speed
+    const [totalSnap, newSnap, contactedSnap, convertedSnap] = await Promise.all([
+      leadsRef.count().get(),
+      leadsRef.where('status', '==', 'new').count().get(),
+      leadsRef.where('status', '==', 'contacted').count().get(),
+      leadsRef.where('status', '==', 'converted').count().get()
+    ]);
+
     const stats = {
-      total: leads.length,
-      new: leads.filter(l => l.status === 'new').length,
-      contacted: leads.filter(l => l.status === 'contacted').length,
-      converted: leads.filter(l => l.status === 'converted').length,
+      total: totalSnap.data().count,
+      new: newSnap.data().count,
+      contacted: contactedSnap.data().count,
+      converted: convertedSnap.data().count,
     };
     
     stats.successRate = stats.total > 0 

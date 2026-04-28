@@ -120,12 +120,8 @@ const Dashboard = () => {
     }, {})
   ).map(([name, value]) => ({ name, value }));
 
-  if (loading) return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '80vh', gap: '20px' }}>
-      <div className="loader"></div>
-      <p style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Initializing Intelligence...</p>
-    </div>
-  );
+  // Note: Removed full-page blocking loader for a "faster" feel.
+  // We'll use skeleton states for individual components.
 
   return (
     <motion.div 
@@ -164,10 +160,10 @@ const Dashboard = () => {
 
       {/* Stats Grid */}
       <div className="stats-grid">
-        <StatCard title="Total Pipeline" value={stats.total} icon={<Users size={22} />} color="var(--primary)" trend="+12% this month" />
-        <StatCard title="Qualified Leads" value={stats.new} icon={<Zap size={22} color="#3b82f6" />} color="#3b82f6" trend="+5% this week" />
-        <StatCard title="Engagement" value={stats.contacted} icon={<Target size={22} color="#f59e0b" />} color="#f59e0b" trend="+8% today" />
-        <StatCard title="Conversions" value={stats.converted} icon={<CheckCircle2 size={22} color="#10b981" />} color="#10b981" trend="+15% this month" />
+        <StatCard title="Total Pipeline" value={loading ? null : stats.total} icon={<Users size={22} />} color="var(--primary)" trend="+12% this month" loading={loading} />
+        <StatCard title="Qualified Leads" value={loading ? null : stats.new} icon={<Zap size={22} color="#3b82f6" />} color="#3b82f6" trend="+5% this week" loading={loading} />
+        <StatCard title="Engagement" value={loading ? null : stats.contacted} icon={<Target size={22} color="#f59e0b" />} color="#f59e0b" trend="+8% today" loading={loading} />
+        <StatCard title="Conversions" value={loading ? null : stats.converted} icon={<CheckCircle2 size={22} color="#10b981" />} color="#10b981" trend="+15% this month" loading={loading} />
       </div>
 
       {/* Charts Section */}
@@ -296,7 +292,18 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredLeads.map((lead) => (
+              {loading ? (
+                Array(5).fill(0).map((_, i) => (
+                  <tr key={`skeleton-${i}`}>
+                    <td><div className="skeleton" style={{ height: '40px', width: '100%' }}></div></td>
+                    <td><div className="skeleton" style={{ height: '20px', width: '80%' }}></div></td>
+                    <td><div className="skeleton" style={{ height: '30px', width: '60px' }}></div></td>
+                    <td><div className="skeleton" style={{ height: '30px', width: '80px' }}></div></td>
+                    <td><div className="skeleton" style={{ height: '20px', width: '70%' }}></div></td>
+                    <td><div className="skeleton" style={{ height: '30px', width: '90px' }}></div></td>
+                  </tr>
+                ))
+              ) : filteredLeads.map((lead) => (
                 <motion.tr 
                   layout
                   initial={{ opacity: 0 }}
@@ -560,7 +567,7 @@ const Dashboard = () => {
   );
 };
 
-const StatCard = ({ title, value, icon, color, trend }) => (
+const StatCard = ({ title, value, icon, color, trend, loading }) => (
   <motion.div 
     whileHover={{ y: -5 }}
     className="glass-panel stat-card" 
@@ -596,7 +603,11 @@ const StatCard = ({ title, value, icon, color, trend }) => (
     
     <div>
       <span style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: 500 }}>{title}</span>
-      <div className="stat-value" style={{ margin: '4px 0', fontSize: '2.2rem' }}>{value}</div>
+      {loading ? (
+        <div className="skeleton" style={{ height: '2.2rem', width: '60%', marginTop: '4px' }}></div>
+      ) : (
+        <div className="stat-value" style={{ margin: '4px 0', fontSize: '2.2rem' }}>{value}</div>
+      )}
     </div>
     
     <div style={{ 
