@@ -3,7 +3,7 @@ import axios from 'axios';
 import { UserPlus, CheckCircle, Globe, Link2, Share2, PhoneCall } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000/api';
 
 const sources = [
   { id: 'Website', icon: <Globe size={18} /> },
