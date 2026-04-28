@@ -107,8 +107,9 @@ const Dashboard = () => {
 
   // Chart Data Preparation
   const pieData = [
-    { name: 'Converted', value: stats.converted || 0 },
-    { name: 'Remaining', value: (stats.total - stats.converted) || 0 }
+    { name: 'New', value: stats.new || 0 },
+    { name: 'Contacted', value: stats.contacted || 0 },
+    { name: 'Converted', value: stats.converted || 0 }
   ];
 
   const sourceData = Object.entries(
@@ -211,10 +212,15 @@ const Dashboard = () => {
                   paddingAngle={8}
                   dataKey="value"
                 >
-                  <Cell fill="var(--success)" fillOpacity={0.9} />
-                  <Cell fill="rgba(255,255,255,0.05)" />
+                  <Cell name="New" fill="#3b82f6" fillOpacity={0.9} />
+                  <Cell name="Contacted" fill="#f59e0b" fillOpacity={0.9} />
+                  <Cell name="Converted" fill="#10b981" fillOpacity={0.9} />
                 </Pie>
-                <RechartsTooltip />
+                <RechartsTooltip 
+                  contentStyle={{ background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px' }}
+                  itemStyle={{ color: '#fff' }}
+                />
+                <Legend verticalAlign="bottom" height={36}/>
               </PieChart>
             </ResponsiveContainer>
             <div style={{ 
