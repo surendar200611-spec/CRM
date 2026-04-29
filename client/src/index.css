@@ -287,8 +287,13 @@ input, select, textarea {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
   border-radius: 8px;
-  color: white;
+  color: var(--text-main);
   outline: none;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
 }
 
 input:focus { border-color: var(--primary); }
