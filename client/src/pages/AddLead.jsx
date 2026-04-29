@@ -105,7 +105,7 @@ const AddLead = ({ onSuccess }) => {
                       placeholder="e.g. Alexander Pierce"
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      style={{ paddingLeft: '48px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px' }}
+                      style={{ paddingLeft: '48px', background: 'var(--glass)', borderRadius: '12px', color: 'var(--text-main)', border: '1px solid var(--border)' }}
                     />
                   </div>
                 </div>
@@ -121,7 +121,7 @@ const AddLead = ({ onSuccess }) => {
                         placeholder="alex@nexus.com"
                         value={formData.email}
                         onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        style={{ paddingLeft: '48px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px' }}
+                        style={{ paddingLeft: '48px', background: 'var(--glass)', borderRadius: '12px', color: 'var(--text-main)', border: '1px solid var(--border)' }}
                       />
                     </div>
                   </div>
@@ -134,7 +134,7 @@ const AddLead = ({ onSuccess }) => {
                         placeholder="+1 (202) 555-0156"
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        style={{ paddingLeft: '48px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px' }}
+                        style={{ paddingLeft: '48px', background: 'var(--glass)', borderRadius: '12px', color: 'var(--text-main)', border: '1px solid var(--border)' }}
                       />
                     </div>
                   </div>

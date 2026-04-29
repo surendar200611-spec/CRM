@@ -270,10 +270,11 @@ const Dashboard = ({ theme }) => {
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ 
                 paddingLeft: '48px', 
-                background: 'rgba(255,255,255,0.03)', 
+                background: 'var(--glass)', 
                 borderRadius: '12px',
                 fontSize: '1rem',
-                border: '1px solid rgba(255,255,255,0.05)'
+                border: '1px solid var(--border)',
+                color: 'var(--text-main)'
               }}
             />
           </div>
