@@ -47,7 +47,7 @@ const SourceBadge = ({ source }) => {
   );
 };
 
-const Dashboard = () => {
+const Dashboard = ({ theme }) => {
   const [leads, setLeads] = useState([]);
   const [stats, setStats] = useState({ total: 0, new: 0, contacted: 0, converted: 0, successRate: 0 });
   const [loading, setLoading] = useState(true);
@@ -131,7 +131,7 @@ const Dashboard = () => {
     >
       <div className="dashboard-header">
         <div>
-          <h1 className="text-gradient" style={{ fontSize: '2.8rem' }}>Executive Dashboard</h1>
+          <h1 className="text-gradient" style={{ fontSize: '2.8rem' }}>Mini CRM Dashboard</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Advanced lead tracking & performance analytics.</p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -148,12 +148,12 @@ const Dashboard = () => {
               a.click();
             }}
           >
-            <Download size={18} color="var(--primary)" />
-            <span>Export Intel</span>
+            <Download size={18} color={theme === 'dark' ? '#fff' : 'var(--primary)'} />
+            <span style={{ color: theme === 'dark' ? '#fff' : 'inherit' }}>Export Intel</span>
           </button>
           <div className="glass-card" style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Activity size={18} color="var(--primary)" />
-            <span style={{ fontWeight: 600 }}>System Live</span>
+            <Activity size={18} color={theme === 'dark' ? '#fff' : 'var(--primary)'} />
+            <span style={{ fontWeight: 600, color: theme === 'dark' ? '#fff' : 'inherit' }}>System Live</span>
           </div>
         </div>
       </div>

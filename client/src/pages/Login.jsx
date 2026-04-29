@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User, Loader2 } from 'lucide-react';
+import { Lock, User, Loader2, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, theme, toggleTheme }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -48,6 +48,23 @@ const Login = ({ onLogin }) => {
       left: 0,
       zIndex: 1000
     }}>
+      {/* Floating Theme Toggle */}
+      <button 
+        onClick={toggleTheme}
+        className="glass-card"
+        style={{ 
+          position: 'fixed', 
+          top: '20px', 
+          right: '20px', 
+          padding: '12px', 
+          borderRadius: '12px',
+          cursor: 'pointer',
+          zIndex: 1001
+        }}
+      >
+        {theme === 'dark' ? <Moon size={20} color="var(--primary)" /> : <Sun size={20} color="#f59e0b" />}
+      </button>
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -119,7 +136,7 @@ const Login = ({ onLogin }) => {
         </form>
 
         <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          CRM Secure Gateway &copy; 2026
+          Mini CRM Secure Gateway &copy; 2026
         </p>
       </motion.div>
     </div>

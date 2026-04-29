@@ -1,10 +1,10 @@
-import { LayoutDashboard, UserPlus, LogOut, User, Settings, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, UserPlus, LogOut, User, Settings, ShieldCheck, Sun, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
 import { motion } from 'framer-motion';
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -38,7 +38,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           }}>
             <ShieldCheck size={24} color="white" />
           </div>
-          <h2 className="text-gradient" style={{ fontSize: '1.8rem', letterSpacing: '-1px' }}>Quantum CRM</h2>
+          <h2 className="text-gradient" style={{ fontSize: '1.8rem', letterSpacing: '-1px' }}>Mini CRM</h2>
         </motion.div>
       </div>
 
@@ -72,6 +72,47 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
             <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }}></div>
             Admin Authority
           </div>
+        </div>
+      </div>
+      
+      {/* Theme Toggle */}
+      <div 
+        onClick={toggleTheme}
+        className="glass-card"
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 16px', 
+          cursor: 'pointer',
+          marginBottom: '1.5rem',
+          fontSize: '0.9rem',
+          fontWeight: 600
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {theme === 'dark' ? <Moon size={18} color="var(--primary)" /> : <Sun size={18} color="#f59e0b" />}
+          <span>{theme === 'dark' ? 'Night Mode' : 'Day Mode'}</span>
+        </div>
+        <div style={{ 
+          width: '40px', 
+          height: '22px', 
+          background: theme === 'dark' ? 'var(--primary)' : '#cbd5e1', 
+          borderRadius: '20px', 
+          position: 'relative',
+          transition: '0.3s'
+        }}>
+          <div style={{ 
+            width: '16px', 
+            height: '16px', 
+            background: 'white', 
+            borderRadius: '50%', 
+            position: 'absolute', 
+            top: '3px', 
+            left: theme === 'dark' ? '21px' : '3px',
+            transition: '0.3s',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+          }}></div>
         </div>
       </div>
       
